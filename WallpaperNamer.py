@@ -194,10 +194,9 @@ def get_material():
 def get_new_names(pdf_list):
     list_to_rename = []
     for pdf in pdf_list:
-        print('\n\nPDF:', pdf.split('/')[-1])
-        correct_name = input('Is this name correct? (y/n): ').lower()
-        if correct_name == 'y':
-            continue 
+        correct_name = confirm_name(pdf)
+        if correct_name == True:
+            continue
         old_name, new_name = rename_pdf(pdf)
         list_to_rename.append([old_name, new_name])
     
@@ -205,6 +204,18 @@ def get_new_names(pdf_list):
         print(print_pdf[0].split('/')[-1], ' -> ' + print_pdf[1].split('/')[-1])
         os.rename(print_pdf[0], print_pdf[1])
 
+def confirm_name(pdf):
+    print('\n\nPDF:', pdf.split('/')[-1])
+    valid_options = ('y','n')
+    correct_name = input('Is this name correct? (y/n): ').lower()
+    if correct_name not in valid_options:
+        print('Not a correct option.')
+        return confirm_name(pdf)
+    if correct_name == 'y':
+        return True
+    else:
+        return False 
+    
 def get_pdf_list(folder_path):
     return glob(folder_path)
 
