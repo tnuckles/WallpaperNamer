@@ -229,6 +229,7 @@ def main():
         return
     else:
         get_new_names(pdf_list)
+        transfer_files()
         return
 
 main()
