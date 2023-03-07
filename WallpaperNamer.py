@@ -1,6 +1,6 @@
 #!usr/bin/env python
 #Sort Downloaded LvD Files
-import os, shutil, random, math
+import os, shutil, math
 from PyPDF2 import PdfFileReader
 from datetime import date
 from glob import glob
@@ -43,7 +43,7 @@ def rename_pdf(pdf):
     name_dict['pdf_length'] = get_length(name_dict['pdf_size'],name_dict['pdf_quantity'],name_dict['pdf_height'])
     name_dict['order_item'] = get_order_item(name_dict['order_number'])
 
-    name_dict = confirm_name(name_dict, pdf, pdf_name)
+    name_dict = confirm_new_name_options(name_dict, pdf, pdf_name)
 
     new_name = format_new_name(name_dict)
     return pdf, file_path + new_name
@@ -56,7 +56,7 @@ def format_new_name(name_dict):
     third_part = nd['template_name'] + '-' + nd['pdf_length'] + '-' + nd['pdf_width'] + '-' + nd['pdf_height'] + '.pdf'
     return first_part + second_part + third_part
 
-def confirm_name(name_dict, pdf, pdf_name):
+def confirm_new_name_options(name_dict, pdf, pdf_name):
     menu_options = (
         (1, 'All are correct.'),
         (2, 'Order Number: ' + name_dict['order_number']),
@@ -85,7 +85,7 @@ def update_element(name_dict, command, pdf, pdf_name):
         name_dict['pdf_quantity'] = get_quantity()
         name_dict['pdf_height'], name_dict['pdf_width'], name_dict['pdf_repeat'], name_dict['pdf_size'] = get_dimensions(pdf, name_dict['pdf_quantity'])
     
-    return confirm_name(name_dict, pdf, pdf_name)
+    return confirm_new_name_options(name_dict, pdf, pdf_name)
 
 def get_input(valid_options_list):
     command = input('\n| Command > ')
